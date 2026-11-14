@@ -70,6 +70,13 @@
     "line": "AANGESIEN minagting vir menseregte barbaarse dade wat die gewete"
   },
   {
+    "language": "agq",
+    "script": "Latn",
+    "population": 38843,
+    "grid": "KƗ̀",
+    "line": "A fɨ̀ bugho an tì li kō, ghùw ù lì ghe fɨ̀ tɔɔŋ tsɨ̀ghà enyɨa Kɨ̀zɨ̀ŋè"
+  },
+  {
     "language": "agr",
     "script": "Latn",
     "population": 65000,
@@ -473,7 +480,7 @@
     "script": "Krai",
     "population": 454918,
     "grid": "𖵖𖵉",
-    "line": "𖵌𖵣𖵝𖵣𖵄 𖵛𖵖𖵣𖵉𖵤 𖵠𖵣𖵟𖵣𖵞𖵩𖵈 𖵄𖵤 𖵒𖵩𖵄𖵫𖵛𖵣𖵜𖵥𖵩 𖵠𖵣𖵟𖵣𖵔𖵣 𖵛𖵗𖵥𖵄𖵢𖵤𖵔𖵣 𖵖𖵥𖵒𖵩𖵄𖵗𖵩𖵄 𖵄𖵤 𖵃𖵄𖵢𖵣𖵛𖵩 𖵛𖵜𖵥𖵈। 𖵅𖵩𖵉𖵤 𖵅𖵣𖵝𖵥 𖵅𖵩𖵖𖵫𖵄𖵤 𖵠𖵤𖵖𖵫𖵗𖵩𖵄𖵧𖵖𖵣𖵖"
+    "line": "𖵌𖵣𖵝𖵣𖵄 𖵛𖵖𖵣𖵉𖵤 𖵠𖵣𖵟𖵣𖵞𖵩𖵈 𖵄𖵤 𖵒𖵩𖵄𖵫𖵛𖵣𖵜𖵥𖵩 𖵠𖵣𖵟𖵣𖵔𖵣 𖵛𖵗𖵥𖵄𖵢𖵤𖵔𖵣 𖵖𖵥𖵒𖵩𖵄𖵗𖵩𖵄 𖵄𖵤 𖵃𖵄𖵢𖵣𖵛𖵩 𖵛𖵜𖵥𖵈𖵮 𖵅𖵩𖵉𖵤 𖵅𖵣𖵝𖵥 𖵅𖵩𖵖𖵫𖵄𖵤 𖵠𖵤𖵖𖵫𖵗𖵩𖵄𖵧𖵖𖵣𖵖"
   },
   {
     "language": "bax",
@@ -695,8 +702,8 @@
   {
     "language": "buc",
     "script": "Latn",
-    "population": 44620,
-    "grid": "Nn",
+    "population": 57762,
+    "grid": "Ŋŋ",
     "line": "An-fahitaŋa amba, tsifahizaŋa ndreka fipuzisaŋa haki-l-adamì ro mikutsonga"
   },
   {
@@ -910,6 +917,13 @@
     "line": "Aquempetavacaajeita maaroni atiri. Timatsi aquenqueshirejeitantari"
   },
   {
+    "language": "cnr",
+    "script": "Latn",
+    "population": 215000,
+    "grid": "Aa",
+    "line": "Pošto je nepoštovanje i preziranje ljudskih prava vodilo varvarskim"
+  },
+  {
     "language": "co",
     "script": "Latn",
     "population": 162835,
@@ -1012,7 +1026,7 @@
     "script": "Cyrl",
     "population": 0,
     "grid": "Сс",
-    "line": "Вьси бо людиѥ родѧтъ сѧ свободьни и равьни въ достоиньствѣ и"
+    "line": "Вси́ бо лю́дїе родѧ́тсѧ свобо́дни и҆ ра́вни въ досто́инствѣ и҆"
   },
   {
     "language": "cu",
@@ -1099,6 +1113,13 @@
     "line": "Raan thök eben aye dhëëth ka lau nhöm kua thöŋ nhiim eyithiic,"
   },
   {
+    "language": "djc",
+    "script": "Latn",
+    "population": 75000,
+    "grid": "N̰j",
+    "line": "Asin̰i tespedi wa mudugi posuma asin̰i mudugi wa arani sogo ette raki wa raki."
+  },
+  {
     "language": "dmf",
     "script": "Medf",
     "population": null,
@@ -1139,6 +1160,13 @@
     "population": null,
     "grid": "Zz",
     "line": "Avzangf max pyvccuf byv syvnax zyxyyv ef, lifxingx ningx lyangvxinx"
+  },
+  {
+    "language": "dv",
+    "script": "Diak",
+    "population": null,
+    "grid": "𑤭𑥂𑤢𑤾𑤩",
+    "line": "𑤥𑤨𑤳𑤟𑤽𑤥𑤳𑤩𑥀𑤂𑤞𑤳𑤤𑤌𑥂𑤳𑤩𑥀𑤥𑤱𑤠𑤂𑥄𑤤𑤱𑤤𑤱𑤬𑤽𑤌𑤱𑤛𑤳𑤠𑤟𑤽𑤎𑤵𑤭𑥀𑤱𑥄𑤠𑥂𑤤𑤰𑤨𑤷𑤞𑤩𑤮𑤬𑤱𑤧𑤱𑤬𑤱𑤐𑤾𑤎𑤬𑤚𑤰𑤩𑤸𑤘𑤵𑤎𑤵𑤟𑤱𑤞𑤵𑤧𑤵𑤞𑤨𑤱𑤌𑥂𑤳𑤟𑤉𑤚𑤩𑤱𑤭𑤱𑤩𑤱𑤭𑤱𑤩𑤟𑤀𑤩𑤵𑤧𑤳𑤞𑥄"
   },
   {
     "language": "dv",
@@ -1491,6 +1519,13 @@
     "line": "鑑於對人權個無視跟恥笑已發展為野蠻暴行，講樣個暴行玷污了人類個良心，而一個人人享有言論跟信仰自由並冒有恐懼跟匱乏個世界個來臨"
   },
   {
+    "language": "gby",
+    "script": "Latn",
+    "population": 350000,
+    "grid": "Éé",
+    "line": "Bajnu ʻsa ga tsi, efa dageyi wa eba dna ʻwye é wo kapa lo."
+  },
+  {
     "language": "gbz",
     "script": "Arab",
     "population": 7982,
@@ -1680,6 +1715,13 @@
     "line": "Fakin dy vel mee-ooashley da cairyssyn deiney as craid jeu er"
   },
   {
+    "language": "gvr",
+    "script": "Gukh",
+    "population": 325622,
+    "grid": "𖄊𖄁",
+    "line": "𖄐𖄞𖄭𖄀𖄟 𖄙𖄬𖄠𖄙𖄦𖄈𖄠 𖄖𖄟𖄗𖄞𖄜𖄟𖄝𖄦𖄭 𖄗𖄛𖄞𖄗𖄛𖄥 𖄊𖄁 𖄒𖄣𖄛 𖄝𖄣𖄭 𖄗𖄞𖄜𖄦𖄀𖄟 𖄁𖄟𖄭𖄝𖄠 𖄂𖄙॥"
+  },
+  {
     "language": "gyr",
     "script": "Latn",
     "population": null,
@@ -1712,7 +1754,7 @@
     "script": "Latn",
     "population": 29604,
     "grid": "Nn",
-    "line": "‘Oiai, ‘o ka hehikū a me ka ho’owahāwahā i ka pono kīvila o ke kanaka"
+    "line": "ʻOiai, ʻo ka hehikū a me ka hoʻowahāwahā i ka pono kīvila o ke kanaka"
   },
   {
     "language": "he",
@@ -2094,6 +2136,13 @@
   },
   {
     "language": "kab",
+    "script": "Latn",
+    "population": 3351886,
+    "grid": "Uu",
+    "line": "Imi kra n wid ur nessemras ara izerfan n umdan d"
+  },
+  {
+    "language": "kab",
     "script": "Tfng",
     "population": null,
     "grid": "ⵏⴻ",
@@ -2146,7 +2195,7 @@
     "script": "Latn",
     "population": null,
     "grid": "Ii",
-    "line": "Chijunil li poyanam juntaq'eet wankil xloq'al naq nake'yo'la, ut kama'"
+    "line": "Chijunil li poyanam juntaqʼeet wankil xloqʼal naq nakeʼyoʼla, ut kamaʼ"
   },
   {
     "language": "kg",
@@ -2762,7 +2811,7 @@
     "script": "Latn",
     "population": 24260130,
     "grid": "Rr",
-    "line": "Firenena Mikambana izy amin'izany, Heverina fa tao anatin'ny Dina"
+    "line": "Firenena Mikambana izy amin’izany, Heverina fa tao anatin’ny Dina"
   },
   {
     "language": "mh",
@@ -2868,6 +2917,13 @@
     "population": 0,
     "grid": "ꯈꯗ",
     "line": "ꯃꯤꯑꯣꯏꯕ ꯈꯨꯗꯤꯡꯃꯛ ꯄꯣꯛꯄ ꯃꯇꯝꯗ ꯅꯤꯡꯇꯝꯃ, ꯑꯃꯗꯤ ꯏꯖꯖꯠꯑꯃꯁꯨꯡ ꯍꯛ ꯃꯥꯟꯅꯅ ꯂꯩꯖꯩ꯫ꯃꯈꯣꯏ ꯄꯨꯝꯅꯃꯛ ꯋꯥꯈꯜ"
+  },
+  {
+    "language": "mns",
+    "script": "Cyrl",
+    "population": 2229,
+    "grid": "Хх",
+    "line": "ва̄нэ̄в щирыл, хунь э̄лумхо̄лас ат янытлаве, ӯльнаг яныгми,"
   },
   {
     "language": "mnw",
@@ -4326,6 +4382,13 @@
     "line": "A kolon fera, adamaya xafe sariyɛe mu mabanbanxi han to i bunadama"
   },
   {
+    "language": "suz",
+    "script": "Sunu",
+    "population": 26611,
+    "grid": "𑯇𑯅",
+    "line": "𑯁𑯂𑯆𑯑𑯃 𑯇𑯖𑯄𑯖𑯃 𑯆𑯔𑯑𑯄-𑯘𑯂 𑯙𑯂𑯄 𑯘𑯂 𑯇𑯖𑯉𑯖𑯘𑯅 𑯍𑯂𑯐 𑯐𑯃𑯆𑯖𑯐𑯃 𑯆𑯖: 𑯄𑯃𑯒𑯃𑯔𑯖𑯇𑯃 𑯁𑯎 𑯍𑯖𑯁𑯎 𑯁𑯑 𑯌𑯖 𑯇𑯖𑯐-𑯎𑯖"
+  },
+  {
     "language": "sv",
     "script": "Latn",
     "population": 12932871,
@@ -4694,7 +4757,7 @@
     "script": "Latn",
     "population": 91487,
     "grid": "Aa",
-    "line": "I te fa'ari'i e no te ha'apa'o'ore, e no te fa'afaufa'a'ore i te mau ti'amanara'a"
+    "line": "I te fa’ari’i e no te ha’apa’o’ore, e no te fa’afaufa’a’ore i te mau ti’amanara’a"
   },
   {
     "language": "tyv",
@@ -4793,6 +4856,13 @@
     "population": 5762,
     "grid": "𞓛𞓐𞓗𞓤𞓨",
     "line": "𞓛𞓐𞓗𞓤𞓨 𞓙𞓐𞓡𞓐𞓢𞓐 𞓢𞓤 𞓧𞓕𞓨𞓣𞓕𞓔 𞓐𞓡𞓐𞓐 𞓕𞓢𞓝𞓚𞓓𞓕𞓣 𞓢𞓐 𞓣𞓤𞓕𞓙 𞓑𞓕𞓚𞓝𞓚𞓗𞓕𞓗𞓕𞓝 𞓣𞓤 𞓖𞓕𞓨𞓕𞓧 𞓖𞓐𞓣𞓐𞓔𞓓𞓤𞓝𞓤 𞓕𞓙𞓡𞓕𞓨𞓕𞓡 𞓐𞓡𞓐𞓐 𞓤𞓢𞓟𞓕𞓒"
+  },
+  {
+    "language": "unr",
+    "script": "Onao",
+    "population": 27506,
+    "grid": "𞗣𞗨",
+    "line": "𞗥𞗔𞗝𞗔 𞗕𞗔𞗓𞗔𞗣𞗔 𞗣𞗨 𞗑𞗖𞗯𞗡 𞗖𞗧 𞗐𞗠𞗪𞗜𞗣𞗖𞗧 𞗧𞗨𞗕𞗖 𞗞𞗖𞗜𞗟𞗜 𞗧𞗨 𞗥𞗐𞗡𞗑𞗐𞗥𞗢𞗭 𞗖𞗝𞗨 𞗡𞗐𞗛𞗖𞗧𞗜"
   },
   {
     "language": "unr",
@@ -4963,6 +5033,13 @@
     "line": "𐊪𐊾𐊠𐊽𐊾𐊲𐊸𐊫𐊷𐋉𐋃𐊷𐊲𐊷𐊲𐊰𐊫𐋇𐊫𐊰𐊪𐊫𐊣\n𐊪𐊾𐊠𐊽𐊾𐊲𐊸𐊫𐊷𐋉𐋃𐊷𐊲𐊷𐊲𐊰𐊫𐋇𐊫𐊰𐊪𐊫𐊣\n𐊪𐊾𐊠𐊽𐊾𐊲𐊸𐊫𐊷𐋉𐋃𐊷𐊲𐊷𐊲𐊰𐊫𐋇𐊫𐊰𐊪𐊫𐊣"
   },
   {
+    "language": "xdq",
+    "script": "Cyrl",
+    "population": 40000,
+    "grid": "Әә",
+    "line": "Һар мейдам азатдеҳ челле чи һачӏурил це: цада йәрдицци, цада ихтийарцци."
+  },
+  {
     "language": "xh",
     "script": "Latn",
     "population": 10182944,
@@ -5129,6 +5206,13 @@
     "population": 4321462,
     "grid": "Uu",
     "line": "Aenvih yawjsiuj vuhmez yinzgenz fazcanj baenz yejmanz bauhingz,"
+  },
+  {
+    "language": "zag",
+    "script": "Berf",
+    "population": 350000,
+    "grid": "𖻊𖻊",
+    "line": "𖺰𖺾𖺾𖻌 𖺼𖺻́𖻌𖻂𖻂 𖺾𖻀𖺾𖻀𖻂𖻇𖺾𖺾 𖻄𖻂𖻓𖺾𖻍𖺾 𖺻𖻀𖻂𖻅 𖻀𖺻 𖻄𖻂𖺽𖻂𖻓𖺾𖻓𖻂. 𖺯 𖻎𖻊𖻄𖻄𖻊𖻊 𖻏𖺾𖻌𖺾𖺿 𖺼𖺾́𖻀𖻂𖻀𖺻 𖻀𖺻𖻌𖺽𖻂 𖺼𖺾́𖻀𖻂𖻀𖺻 𖻂𖻇𖻇𖺾𖻌 𖻐𖺾𖻓𖻂𖻍𖻂𖻂."
   },
   {
     "language": "zam",

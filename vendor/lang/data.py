@@ -1,6 +1,6 @@
 # /// script
 # requires-python = ">=3.9"
-# dependencies = ["importlib_resources", "protobuf<4"]
+# dependencies = ["gfmetadata"]
 # ///
 import json
 import os

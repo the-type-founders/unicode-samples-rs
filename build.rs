@@ -11,7 +11,7 @@ struct Entry {
     line: Option<String>,
 }
 
-const DATA: &str = include_str!("vendor/gflanguages/data.json");
+const DATA: &str = include_str!("vendor/lang/data.json");
 
 macro_rules! ok(($result:expr) => ($result.unwrap()));
 

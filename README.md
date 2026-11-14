@@ -2,7 +2,7 @@
 
 The package provides samples for Unicode languages and scripts.
 
-The implementation is based on [gflanguages].
+The implementation is based on [lang] by Google Fonts.
 
 ## Contribution
 
@@ -10,7 +10,7 @@ Your contribution is highly appreciated. Do not hesitate to open an issue or a
 pull request. Note that any contribution submitted for inclusion in the project
 will be licensed according to the terms given in [LICENSE.md](LICENSE.md).
 
-[gflanguages]: https://github.com/daltonmaag/gflanguages
+[lang]: https://github.com/googlefonts/lang
 
 [build-img]: https://github.com/the-type-founders/unicode-samples-rs/actions/workflows/build.yml/badge.svg
 [build-url]: https://github.com/the-type-founders/unicode-samples-rs/actions/workflows/build.yml
