@@ -1,11 +1,11 @@
 [package]
-name = "unicode-sample-string"
+name = "unicode-samples"
 version = "0.0.1"
 edition = "2024"
 license = "Apache-2.0 OR MIT"
 authors = ["Ivan Ukhov <ivan.ukhov@gmail.com>"]
-description = "The package provides sample strings for Unicode languages and writing scripts."
-documentation = "https://docs.rs/unicode-sample-string"
-repository = "https://github.com/the-type-founders/unicode-sample-string"
+description = "The package provides samples for Unicode languages and writing scripts."
+documentation = "https://docs.rs/unicode-samples"
+repository = "https://github.com/the-type-founders/unicode-samples-rs"
 categories = ["text-processing"]
 keywords = ["unicode"]
