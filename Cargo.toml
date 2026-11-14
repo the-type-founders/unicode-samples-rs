@@ -1,10 +1,10 @@
 [package]
 name = "unicode-samples"
-version = "0.0.1"
+version = "0.1.0"
 edition = "2024"
 license = "Apache-2.0 OR MIT"
 authors = ["Ivan Ukhov <ivan.ukhov@gmail.com>"]
-description = "The package provides samples for Unicode languages and writing scripts."
+description = "The package provides samples for Unicode languages and scripts."
 documentation = "https://docs.rs/unicode-samples"
 repository = "https://github.com/the-type-founders/unicode-samples-rs"
 categories = ["text-processing"]
