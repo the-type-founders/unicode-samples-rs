@@ -6,6 +6,7 @@ fn languages() {
     let scripts = &languages["en"];
     assert!(scripts.contains(&Script {
         code: "latn",
+        population: Some(1636848718),
         grid: Some("Hh"),
         line: Some("Whereas disregard and contempt for human rights have resulted"),
     }));
@@ -19,6 +20,7 @@ fn scripts() {
     let languages = &scripts["latn"];
     assert!(languages.contains(&Language {
         code: "en",
+        population: Some(1636848718),
         grid: Some("Hh"),
         line: Some("Whereas disregard and contempt for human rights have resulted"),
     }));

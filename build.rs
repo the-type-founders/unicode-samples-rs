@@ -39,6 +39,6 @@ fn main() {
         .join(",");
     ok!(write!(
         file,
-        "const DATA: &[(&str, &str, Option<u32>, Option<&str>, Option<&str>)] = &[{data}];",
+        "const DATA: &[(&str, &str, Option<usize>, Option<&str>, Option<&str>)] = &[{data}];",
     ));
 }

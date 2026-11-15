@@ -18,6 +18,8 @@ pub struct Context;
 pub struct Language {
     /// The ISO 639 code in lowercase.
     pub code: &'static str,
+    /// The number of speakers, if known.
+    pub population: Option<usize>,
     /// A sample for a grid, usually two glyphs.
     pub grid: Option<&'static str>,
     /// A sample for a line, usually a phrase.
@@ -29,6 +31,8 @@ pub struct Language {
 pub struct Script {
     /// The ISO 15924 code in lowercase.
     pub code: &'static str,
+    /// The number of speakers, if known.
+    pub population: Option<usize>,
     /// A sample for a grid, usually two glyphs.
     pub grid: Option<&'static str>,
     /// A sample for a line, usually a phrase.
@@ -43,19 +47,17 @@ impl Context {
     pub fn languages() -> BTreeMap<&'static str, Vec<Script>> {
         let mut languages: BTreeMap<_, Vec<_>> = Default::default();
         for (language, script, population, grid, line) in DATA.iter().cloned() {
-            languages.entry(language).or_default().push((
-                population.unwrap_or(0),
-                Script {
-                    code: script,
-                    grid,
-                    line,
-                },
-            ));
+            languages.entry(language).or_default().push(Script {
+                code: script,
+                population,
+                grid,
+                line,
+            });
+        }
+        for scripts in languages.values_mut() {
+            sort(scripts, |script| (script.population, script.code));
         }
         languages
-            .into_iter()
-            .map(|(code, scripts)| (code, sort(scripts, |script| script.code)))
-            .collect()
     }
 
     /// Group the samples by script.
@@ -65,28 +67,30 @@ impl Context {
     pub fn scripts() -> BTreeMap<&'static str, Vec<Language>> {
         let mut scripts: BTreeMap<_, Vec<_>> = Default::default();
         for (language, script, population, grid, line) in DATA.iter().cloned() {
-            scripts.entry(script).or_default().push((
-                population.unwrap_or(0),
-                Language {
-                    code: language,
-                    grid,
-                    line,
-                },
-            ));
+            scripts.entry(script).or_default().push(Language {
+                code: language,
+                population,
+                grid,
+                line,
+            });
+        }
+        for languages in scripts.values_mut() {
+            sort(languages, |language| (language.population, language.code));
         }
         scripts
-            .into_iter()
-            .map(|(code, languages)| (code, sort(languages, |language| language.code)))
-            .collect()
     }
 }
 
-fn sort<T, F>(mut values: Vec<(u32, T)>, code: F) -> Vec<T>
+fn sort<T, F>(values: &mut [T], key: F)
 where
-    F: Fn(&T) -> &'static str,
+    F: Fn(&T) -> (Option<usize>, &'static str),
 {
-    values.sort_by(|(one, first), (other, second)| {
-        other.cmp(one).then_with(|| code(first).cmp(code(second)))
+    values.sort_by(|first, second| {
+        let (one, first) = key(first);
+        let (other, second) = key(second);
+        other
+            .unwrap_or(0)
+            .cmp(&one.unwrap_or(0))
+            .then_with(|| first.cmp(second))
     });
-    values.into_iter().map(|(_, value)| value).collect()
 }
