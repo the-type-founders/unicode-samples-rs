@@ -2,6 +2,7 @@
 # requires-python = ">=3.9"
 # dependencies = ["gfmetadata"]
 # ///
+
 import json
 import os
 import sys
