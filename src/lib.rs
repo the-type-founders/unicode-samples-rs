@@ -64,20 +64,6 @@ type Entry = (
 );
 
 impl Context {
-    /// Find the languages written in a script.
-    ///
-    /// The case of the code is ignored. The languages are sorted by population in descending
-    /// order with ties broken by code.
-    ///
-    /// Samples given for a combination or a variant of scripts, such as `Kore`, are also listed
-    /// under the constituent scripts, such as `Hang` and `Hani`, unless the language has a sample
-    /// of its own there.
-    pub fn languages(&self, code: &str) -> Option<&[Language]> {
-        self.scripts
-            .get(&code.to_ascii_lowercase())
-            .map(|(_, languages)| languages.as_slice())
-    }
-
     /// Find the scripts a language is written in.
     ///
     /// The case of the code is ignored. The scripts are sorted by population in descending order
@@ -86,10 +72,24 @@ impl Context {
     /// Samples given for a combination or a variant of scripts, such as `Kore`, are also listed
     /// under the constituent scripts, such as `Hang` and `Hani`, unless the language has a sample
     /// of its own there.
-    pub fn scripts(&self, code: &str) -> Option<&[Script]> {
+    pub fn language(&self, code: &str) -> Option<&[Script]> {
         self.languages
             .get(&code.to_ascii_lowercase())
             .map(|(_, scripts)| scripts.as_slice())
+    }
+
+    /// Find the languages written in a script.
+    ///
+    /// The case of the code is ignored. The languages are sorted by population in descending
+    /// order with ties broken by code.
+    ///
+    /// Samples given for a combination or a variant of scripts, such as `Kore`, are also listed
+    /// under the constituent scripts, such as `Hang` and `Hani`, unless the language has a sample
+    /// of its own there.
+    pub fn script(&self, code: &str) -> Option<&[Language]> {
+        self.scripts
+            .get(&code.to_ascii_lowercase())
+            .map(|(_, languages)| languages.as_slice())
     }
 }
 

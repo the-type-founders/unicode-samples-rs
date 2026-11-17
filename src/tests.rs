@@ -5,21 +5,7 @@ macro_rules! ok(($result:expr) => ($result.unwrap()));
 #[test]
 fn simple_languages() {
     let context = Context::default();
-    let languages = ok!(context.languages("Latn"));
-    assert!(languages.contains(&Language {
-        code: "en",
-        population: Some(1636848718),
-        grid: Some("Hh"),
-        line: Some("Whereas disregard and contempt for human rights have resulted"),
-    }));
-    assert!(languages.iter().any(|language| language.code == "fr"));
-    assert!(context.languages("Xxxx").is_none());
-}
-
-#[test]
-fn simple_scripts() {
-    let context = Context::default();
-    let scripts = ok!(context.scripts("en"));
+    let scripts = ok!(context.language("en"));
     assert!(scripts.contains(&Script {
         code: "Latn",
         population: Some(1636848718),
@@ -27,16 +13,30 @@ fn simple_scripts() {
         line: Some("Whereas disregard and contempt for human rights have resulted"),
     }));
     assert!(scripts.iter().any(|script| script.code == "Brai"));
-    assert!(context.scripts("xx").is_none());
+    assert!(context.language("xx").is_none());
+}
+
+#[test]
+fn simple_scripts() {
+    let context = Context::default();
+    let languages = ok!(context.script("Latn"));
+    assert!(languages.contains(&Language {
+        code: "en",
+        population: Some(1636848718),
+        grid: Some("Hh"),
+        line: Some("Whereas disregard and contempt for human rights have resulted"),
+    }));
+    assert!(languages.iter().any(|language| language.code == "fr"));
+    assert!(context.script("Xxxx").is_none());
 }
 
 #[test]
 fn simple_case() {
     let context = Context::default();
-    assert_eq!(context.scripts("EN"), context.scripts("en"));
-    assert_eq!(context.scripts("FR-Gallo"), context.scripts("fr-gallo"));
-    assert_eq!(context.languages("latn"), context.languages("Latn"));
-    assert_eq!(context.languages("LATN"), context.languages("Latn"));
+    assert_eq!(context.language("EN"), context.language("en"));
+    assert_eq!(context.language("FR-Gallo"), context.language("fr-gallo"));
+    assert_eq!(context.script("latn"), context.script("Latn"));
+    assert_eq!(context.script("LATN"), context.script("Latn"));
     // The codes are given as they are written in the standards.
     assert!(
         context
@@ -68,8 +68,21 @@ fn simple_consistency() {
 #[test]
 fn composite_languages() {
     let context = Context::default();
+    let codes = |language: &str| {
+        ok!(context.language(language))
+            .iter()
+            .map(|script| script.code)
+            .collect::<Vec<_>>()
+    };
+    assert_eq!(codes("ko"), ["Hang", "Hani", "Kore"]);
+    assert_eq!(codes("zh"), ["Hani", "Hans", "Hant", "Hebr"]);
+}
+
+#[test]
+fn composite_scripts() {
+    let context = Context::default();
     let find = |script: &str, language: &str| {
-        ok!(context.languages(script))
+        ok!(context.script(script))
             .iter()
             .filter(|candidate| candidate.code == language)
             .cloned()
@@ -95,19 +108,6 @@ fn composite_languages() {
 }
 
 #[test]
-fn composite_scripts() {
-    let context = Context::default();
-    let codes = |language: &str| {
-        ok!(context.scripts(language))
-            .iter()
-            .map(|script| script.code)
-            .collect::<Vec<_>>()
-    };
-    assert_eq!(codes("ko"), ["Hang", "Hani", "Kore"]);
-    assert_eq!(codes("zh"), ["Hani", "Hans", "Hant", "Hebr"]);
-}
-
-#[test]
 fn composite_consistency() {
     let mut codes = COMPOSITES.iter().map(|(code, _)| *code).collect::<Vec<_>>();
     codes.sort();
@@ -121,5 +121,5 @@ fn composite_consistency() {
     }
     // All of them are present in the data.
     let context = Context::default();
-    assert!(codes.iter().all(|code| context.languages(code).is_some()));
+    assert!(codes.iter().all(|code| context.script(code).is_some()));
 }
