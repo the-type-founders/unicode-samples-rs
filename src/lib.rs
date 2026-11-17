@@ -66,8 +66,7 @@ type Entry = (
 impl Context {
     /// Find the scripts a language is written in.
     ///
-    /// The case of the code is ignored. The scripts are sorted by population in descending order
-    /// with ties broken by code.
+    /// The case of the code is ignored. The scripts are sorted by code.
     ///
     /// Samples given for a combination or a variant of scripts, such as `Kore`, are also listed
     /// under the constituent scripts, such as `Hang` and `Hani`, unless the language has a sample
@@ -80,8 +79,7 @@ impl Context {
 
     /// Find the languages written in a script.
     ///
-    /// The case of the code is ignored. The languages are sorted by population in descending
-    /// order with ties broken by code.
+    /// The case of the code is ignored. The languages are sorted by code.
     ///
     /// Samples given for a combination or a variant of scripts, such as `Kore`, are also listed
     /// under the constituent scripts, such as `Hang` and `Hani`, unless the language has a sample
@@ -121,10 +119,10 @@ impl Default for Context {
                 });
         }
         for (_, scripts) in languages.values_mut() {
-            sort(scripts, |script| (script.population, script.code));
+            scripts.sort_by_key(|script| script.code);
         }
         for (_, languages) in scripts.values_mut() {
-            sort(languages, |language| (language.population, language.code));
+            languages.sort_by_key(|language| language.code);
         }
         Self { languages, scripts }
     }
@@ -163,18 +161,4 @@ fn entries() -> Vec<Entry> {
         }
     }
     entries
-}
-
-fn sort<T, F>(values: &mut [T], key: F)
-where
-    F: Fn(&T) -> (Option<usize>, &'static str),
-{
-    values.sort_by(|first, second| {
-        let (one, first) = key(first);
-        let (other, second) = key(second);
-        other
-            .unwrap_or(0)
-            .cmp(&one.unwrap_or(0))
-            .then_with(|| first.cmp(second))
-    });
 }
