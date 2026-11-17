@@ -5,7 +5,7 @@
 #[cfg(test)]
 mod tests;
 
-use std::collections::{BTreeMap, BTreeSet};
+use std::collections::BTreeMap;
 
 include!(concat!(env!("OUT_DIR"), "/data.rs"));
 
@@ -25,140 +25,83 @@ const COMPOSITES: &[(&str, &[&str])] = &[
 /// A context.
 #[derive(Clone, Debug)]
 pub struct Context {
-    languages: BTreeMap<String, (&'static str, Vec<Script>)>,
-    scripts: BTreeMap<String, (&'static str, Vec<Language>)>,
+    languages: BTreeMap<String, Vec<Sample>>,
+    scripts: BTreeMap<String, Vec<Sample>>,
 }
 
-/// A language.
+/// A sample.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
-pub struct Language {
-    /// The BCP 47 tag.
-    pub code: &'static str,
+pub struct Sample {
+    /// The BCP 47 tag of the language.
+    pub language: &'static str,
+    /// The ISO 15924 code of the script.
+    pub script: &'static str,
     /// The number of speakers, if known.
     pub population: Option<usize>,
-    /// A sample for a grid, usually two glyphs.
+    /// A text for a grid, usually two glyphs.
     pub grid: Option<&'static str>,
-    /// A sample for a line, usually a phrase.
+    /// A text for a line, usually a phrase.
     pub line: Option<&'static str>,
 }
-
-/// A script.
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
-pub struct Script {
-    /// The ISO 15924 code.
-    pub code: &'static str,
-    /// The number of speakers, if known.
-    pub population: Option<usize>,
-    /// A sample for a grid, usually two glyphs.
-    pub grid: Option<&'static str>,
-    /// A sample for a line, usually a phrase.
-    pub line: Option<&'static str>,
-}
-
-type Entry = (
-    &'static str,
-    &'static str,
-    Option<usize>,
-    Option<&'static str>,
-    Option<&'static str>,
-);
 
 impl Context {
-    /// Find the scripts a language is written in.
+    /// Find the samples of a language.
     ///
-    /// The case of the code is ignored. The scripts are sorted by code.
-    ///
-    /// Samples given for a combination or a variant of scripts, such as `Kore`, are also listed
-    /// under the constituent scripts, such as `Hang` and `Hani`, unless the language has a sample
-    /// of its own there.
-    pub fn language(&self, code: &str) -> Option<&[Script]> {
+    /// The case of the code is ignored. The samples are sorted by script.
+    pub fn language(&self, code: &str) -> Option<&[Sample]> {
         self.languages
             .get(&code.to_ascii_lowercase())
-            .map(|(_, scripts)| scripts.as_slice())
+            .map(Vec::as_slice)
     }
 
-    /// Find the languages written in a script.
+    /// Find the samples of a script.
     ///
-    /// The case of the code is ignored. The languages are sorted by code.
+    /// The case of the code is ignored. The samples are sorted by language and then by script.
     ///
     /// Samples given for a combination or a variant of scripts, such as `Kore`, are also listed
-    /// under the constituent scripts, such as `Hang` and `Hani`, unless the language has a sample
-    /// of its own there.
-    pub fn script(&self, code: &str) -> Option<&[Language]> {
+    /// under the constituent scripts, such as `Hang` and `Hani`.
+    pub fn script(&self, code: &str) -> Option<&[Sample]> {
         self.scripts
             .get(&code.to_ascii_lowercase())
-            .map(|(_, languages)| languages.as_slice())
+            .map(Vec::as_slice)
     }
 }
 
 impl Default for Context {
     fn default() -> Self {
-        let mut languages: BTreeMap<_, (_, Vec<_>)> = Default::default();
-        let mut scripts: BTreeMap<_, (_, Vec<_>)> = Default::default();
-        for (language, script, population, grid, line) in entries() {
+        let mut languages: BTreeMap<_, Vec<_>> = Default::default();
+        let mut scripts: BTreeMap<_, Vec<_>> = Default::default();
+        for &(language, script, population, grid, line) in DATA {
+            let sample = Sample {
+                language,
+                script,
+                population,
+                grid,
+                line,
+            };
+            let constituents = COMPOSITES
+                .iter()
+                .find(|(code, _)| *code == script)
+                .map(|(_, scripts)| *scripts)
+                .unwrap_or_default();
             // The keys are in lowercase to ignore the case when looking up.
             languages
                 .entry(language.to_ascii_lowercase())
-                .or_insert_with(|| (language, Default::default()))
-                .1
-                .push(Script {
-                    code: script,
-                    population,
-                    grid,
-                    line,
-                });
-            scripts
-                .entry(script.to_ascii_lowercase())
-                .or_insert_with(|| (script, Default::default()))
-                .1
-                .push(Language {
-                    code: language,
-                    population,
-                    grid,
-                    line,
-                });
+                .or_default()
+                .push(sample);
+            for script in std::iter::once(&script).chain(constituents) {
+                scripts
+                    .entry(script.to_ascii_lowercase())
+                    .or_default()
+                    .push(sample);
+            }
         }
-        for (_, scripts) in languages.values_mut() {
-            scripts.sort_by_key(|script| script.code);
+        for samples in languages.values_mut() {
+            samples.sort_by_key(|sample| sample.script);
         }
-        for (_, languages) in scripts.values_mut() {
-            languages.sort_by_key(|language| language.code);
+        for samples in scripts.values_mut() {
+            samples.sort_by_key(|sample| (sample.language, sample.script));
         }
         Self { languages, scripts }
     }
-}
-
-fn entries() -> Vec<Entry> {
-    let mut entries = DATA.to_vec();
-    let mut seen = entries
-        .iter()
-        .map(|(language, script, ..)| (*language, *script))
-        .collect::<BTreeSet<_>>();
-    // When several composites of a language lead to the same script, such as `Hans` and `Hant`
-    // leading to `Hani`, the most populous one wins, with ties broken by code.
-    let mut composites = DATA
-        .iter()
-        .filter_map(|entry| {
-            COMPOSITES
-                .iter()
-                .find(|(code, _)| *code == entry.1)
-                .map(|(_, scripts)| (entry, *scripts))
-        })
-        .collect::<Vec<_>>();
-    composites.sort_by(|(one, _), (other, _)| {
-        other
-            .2
-            .unwrap_or(0)
-            .cmp(&one.2.unwrap_or(0))
-            .then_with(|| one.1.cmp(other.1))
-    });
-    for (&(language, _, population, grid, line), scripts) in composites {
-        for script in scripts {
-            // The samples given specifically for the language and script take precedence.
-            if seen.insert((language, script)) {
-                entries.push((language, script, population, grid, line));
-            }
-        }
-    }
-    entries
 }
