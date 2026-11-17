@@ -5,20 +5,6 @@ macro_rules! ok(($result:expr) => ($result.unwrap()));
 #[test]
 fn simple_languages() {
     let context = Context::default();
-    let scripts = ok!(context.scripts("en"));
-    assert!(scripts.contains(&Script {
-        code: "Latn",
-        population: Some(1636848718),
-        grid: Some("Hh"),
-        line: Some("Whereas disregard and contempt for human rights have resulted"),
-    }));
-    assert!(scripts.iter().any(|script| script.code == "Brai"));
-    assert!(context.scripts("xx").is_none());
-}
-
-#[test]
-fn simple_scripts() {
-    let context = Context::default();
     let languages = ok!(context.languages("Latn"));
     assert!(languages.contains(&Language {
         code: "en",
@@ -28,6 +14,20 @@ fn simple_scripts() {
     }));
     assert!(languages.iter().any(|language| language.code == "fr"));
     assert!(context.languages("Xxxx").is_none());
+}
+
+#[test]
+fn simple_scripts() {
+    let context = Context::default();
+    let scripts = ok!(context.scripts("en"));
+    assert!(scripts.contains(&Script {
+        code: "Latn",
+        population: Some(1636848718),
+        grid: Some("Hh"),
+        line: Some("Whereas disregard and contempt for human rights have resulted"),
+    }));
+    assert!(scripts.iter().any(|script| script.code == "Brai"));
+    assert!(context.scripts("xx").is_none());
 }
 
 #[test]
@@ -68,19 +68,6 @@ fn simple_consistency() {
 #[test]
 fn composite_languages() {
     let context = Context::default();
-    let codes = |language: &str| {
-        ok!(context.scripts(language))
-            .iter()
-            .map(|script| script.code)
-            .collect::<Vec<_>>()
-    };
-    assert_eq!(codes("ko"), ["Hang", "Hani", "Kore"]);
-    assert_eq!(codes("zh"), ["Hani", "Hans", "Hant", "Hebr"]);
-}
-
-#[test]
-fn composite_scripts() {
-    let context = Context::default();
     let find = |script: &str, language: &str| {
         ok!(context.languages(script))
             .iter()
@@ -105,6 +92,19 @@ fn composite_scripts() {
 
     // The most populous variant wins.
     assert_eq!(find("Hani", "zh"), find("Hans", "zh"));
+}
+
+#[test]
+fn composite_scripts() {
+    let context = Context::default();
+    let codes = |language: &str| {
+        ok!(context.scripts(language))
+            .iter()
+            .map(|script| script.code)
+            .collect::<Vec<_>>()
+    };
+    assert_eq!(codes("ko"), ["Hang", "Hani", "Kore"]);
+    assert_eq!(codes("zh"), ["Hani", "Hans", "Hant", "Hebr"]);
 }
 
 #[test]
