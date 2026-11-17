@@ -22,17 +22,12 @@ fn main() {
     let data: Vec<Entry> = ok!(serde_json::from_str(DATA));
     let data = data
         .into_iter()
-        .map(
-            |Entry {
-                 language,
-                 script,
-                 population,
-                 grid,
-                 line,
-             }| {
-                format!("({language:?}, {script:?}, {population:?}, {grid:?}, {line:?})")
-            },
-        )
+        .map(|entry| {
+            format!(
+                "({:?}, {:?}, {:?}, {:?}, {:?})",
+                entry.language, entry.script, entry.population, entry.grid, entry.line,
+            )
+        })
         .collect::<Vec<_>>()
         .join(",");
     ok!(write!(
