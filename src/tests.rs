@@ -1,23 +1,25 @@
 use crate::{COMPOSITES, Context, Language, Script};
 
+macro_rules! ok(($result:expr) => ($result.unwrap()));
+
 #[test]
 fn simple_languages() {
-    let languages = Context::languages();
-    let scripts = &languages["en"];
+    let context = Context::default();
+    let scripts = ok!(context.scripts("en"));
     assert!(scripts.contains(&Script {
-        code: "latn",
+        code: "Latn",
         population: Some(1636848718),
         grid: Some("Hh"),
         line: Some("Whereas disregard and contempt for human rights have resulted"),
     }));
-    assert!(scripts.iter().any(|script| script.code == "brai"));
-    assert!(languages.keys().all(|code| *code == code.to_lowercase()));
+    assert!(scripts.iter().any(|script| script.code == "Brai"));
+    assert!(context.scripts("xx").is_none());
 }
 
 #[test]
 fn simple_scripts() {
-    let scripts = Context::scripts();
-    let languages = &scripts["latn"];
+    let context = Context::default();
+    let languages = ok!(context.languages("Latn"));
     assert!(languages.contains(&Language {
         code: "en",
         population: Some(1636848718),
@@ -25,37 +27,62 @@ fn simple_scripts() {
         line: Some("Whereas disregard and contempt for human rights have resulted"),
     }));
     assert!(languages.iter().any(|language| language.code == "fr"));
-    assert!(scripts.keys().all(|code| *code == code.to_lowercase()));
+    assert!(context.languages("Xxxx").is_none());
+}
+
+#[test]
+fn simple_case() {
+    let context = Context::default();
+    assert_eq!(context.scripts("EN"), context.scripts("en"));
+    assert_eq!(context.scripts("FR-Gallo"), context.scripts("fr-gallo"));
+    assert_eq!(context.languages("latn"), context.languages("Latn"));
+    assert_eq!(context.languages("LATN"), context.languages("Latn"));
+    // The codes are given as they are written in the standards.
+    assert!(
+        context
+            .languages
+            .values()
+            .any(|(code, _)| *code == "fr-gallo")
+    );
+    assert!(context.scripts.values().any(|(code, _)| *code == "Latn"));
+    assert!(context.scripts.values().all(|(code, _)| *code != "latn"));
 }
 
 #[test]
 fn simple_consistency() {
-    let languages = Context::languages();
-    let scripts = Context::scripts();
-    let forward: usize = languages.values().map(Vec::len).sum();
-    let backward: usize = scripts.values().map(Vec::len).sum();
+    let context = Context::default();
+    let forward: usize = context
+        .languages
+        .values()
+        .map(|(_, scripts)| scripts.len())
+        .sum();
+    let backward: usize = context
+        .scripts
+        .values()
+        .map(|(_, languages)| languages.len())
+        .sum();
     assert_eq!(forward, backward);
     assert!(forward > 700);
 }
 
 #[test]
 fn composite_languages() {
-    let languages = Context::languages();
+    let context = Context::default();
     let codes = |language: &str| {
-        languages[language]
+        ok!(context.scripts(language))
             .iter()
             .map(|script| script.code)
             .collect::<Vec<_>>()
     };
-    assert_eq!(codes("ko"), ["hang", "hani", "kore"]);
-    assert_eq!(codes("zh"), ["hani", "hans", "hant", "hebr"]);
+    assert_eq!(codes("ko"), ["Hang", "Hani", "Kore"]);
+    assert_eq!(codes("zh"), ["Hani", "Hans", "Hant", "Hebr"]);
 }
 
 #[test]
 fn composite_scripts() {
-    let scripts = Context::scripts();
+    let context = Context::default();
     let find = |script: &str, language: &str| {
-        scripts[script]
+        ok!(context.languages(script))
             .iter()
             .filter(|candidate| candidate.code == language)
             .cloned()
@@ -63,21 +90,21 @@ fn composite_scripts() {
     };
 
     // A combination is listed as is and under each of its scripts.
-    let korean = find("kore", "ko");
+    let korean = find("Kore", "ko");
     assert_eq!(korean.len(), 1);
     assert_eq!(korean[0].grid, Some("은태"));
-    assert_eq!(find("hang", "ko"), korean);
-    assert_eq!(find("hani", "ko"), korean);
+    assert_eq!(find("Hang", "ko"), korean);
+    assert_eq!(find("Hani", "ko"), korean);
 
     // A sample given specifically for a script takes precedence.
-    assert_eq!(find("hani", "ja"), find("jpan", "ja"));
-    assert_eq!(find("hira", "ja").len(), 1);
-    assert_eq!(find("hira", "ja")[0].grid, Some("にんげん"));
-    assert_eq!(find("kana", "ja").len(), 1);
-    assert_eq!(find("kana", "ja")[0].grid, Some("ニンゲン"));
+    assert_eq!(find("Hani", "ja"), find("Jpan", "ja"));
+    assert_eq!(find("Hira", "ja").len(), 1);
+    assert_eq!(find("Hira", "ja")[0].grid, Some("にんげん"));
+    assert_eq!(find("Kana", "ja").len(), 1);
+    assert_eq!(find("Kana", "ja")[0].grid, Some("ニンゲン"));
 
     // The most populous variant wins.
-    assert_eq!(find("hani", "zh"), find("hans", "zh"));
+    assert_eq!(find("Hani", "zh"), find("Hans", "zh"));
 }
 
 #[test]
@@ -93,6 +120,6 @@ fn composite_consistency() {
         assert!(scripts.iter().all(|script| !codes.contains(script)));
     }
     // All of them are present in the data.
-    let scripts = Context::scripts();
-    assert!(codes.iter().all(|code| scripts.contains_key(code)));
+    let context = Context::default();
+    assert!(codes.iter().all(|code| context.languages(code).is_some()));
 }

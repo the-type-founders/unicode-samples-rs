@@ -15,21 +15,24 @@ include!(concat!(env!("OUT_DIR"), "/data.rs"));
 // the codes present in the source data.
 const COMPOSITES: &[(&str, &[&str])] = &[
     // Combinations
-    ("jpan", &["hani", "hira", "kana"]),
-    ("kore", &["hang", "hani"]),
+    ("Jpan", &["Hani", "Hira", "Kana"]),
+    ("Kore", &["Hang", "Hani"]),
     // Variants
-    ("hans", &["hani"]),
-    ("hant", &["hani"]),
+    ("Hans", &["Hani"]),
+    ("Hant", &["Hani"]),
 ];
 
 /// A context.
-#[derive(Clone, Copy, Debug, Default)]
-pub struct Context;
+#[derive(Clone, Debug)]
+pub struct Context {
+    languages: BTreeMap<String, (&'static str, Vec<Script>)>,
+    scripts: BTreeMap<String, (&'static str, Vec<Language>)>,
+}
 
 /// A language.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct Language {
-    /// The ISO 639 code in lowercase.
+    /// The BCP 47 code.
     pub code: &'static str,
     /// The number of speakers, if known.
     pub population: Option<usize>,
@@ -42,7 +45,7 @@ pub struct Language {
 /// A script.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct Script {
-    /// The ISO 15924 code in lowercase.
+    /// The ISO 15924 code.
     pub code: &'static str,
     /// The number of speakers, if known.
     pub population: Option<usize>,
@@ -61,52 +64,69 @@ type Entry = (
 );
 
 impl Context {
-    /// Group the samples by language.
+    /// Find the languages written in a script.
     ///
-    /// The keys are language codes, and the values are the scripts the languages are written in,
-    /// sorted by population in descending order with ties broken by code.
+    /// The case of the code is ignored. The languages are sorted by population in descending
+    /// order with ties broken by code.
     ///
-    /// Samples given for a combination or a variant of scripts, such as `kore`, are also listed
-    /// under the constituent scripts, such as `hang` and `hani`, unless the language has a sample
+    /// Samples given for a combination or a variant of scripts, such as `Kore`, are also listed
+    /// under the constituent scripts, such as `Hang` and `Hani`, unless the language has a sample
     /// of its own there.
-    pub fn languages() -> BTreeMap<&'static str, Vec<Script>> {
-        let mut languages: BTreeMap<_, Vec<_>> = Default::default();
-        for (language, script, population, grid, line) in entries() {
-            languages.entry(language).or_default().push(Script {
-                code: script,
-                population,
-                grid,
-                line,
-            });
-        }
-        for scripts in languages.values_mut() {
-            sort(scripts, |script| (script.population, script.code));
-        }
-        languages
+    pub fn languages(&self, code: &str) -> Option<&[Language]> {
+        self.scripts
+            .get(&code.to_ascii_lowercase())
+            .map(|(_, languages)| languages.as_slice())
     }
 
-    /// Group the samples by script.
+    /// Find the scripts a language is written in.
     ///
-    /// The keys are script codes, and the values are the languages written in the scripts, sorted
-    /// by population in descending order with ties broken by code.
+    /// The case of the code is ignored. The scripts are sorted by population in descending order
+    /// with ties broken by code.
     ///
-    /// Samples given for a combination or a variant of scripts, such as `kore`, are also listed
-    /// under the constituent scripts, such as `hang` and `hani`, unless the language has a sample
+    /// Samples given for a combination or a variant of scripts, such as `Kore`, are also listed
+    /// under the constituent scripts, such as `Hang` and `Hani`, unless the language has a sample
     /// of its own there.
-    pub fn scripts() -> BTreeMap<&'static str, Vec<Language>> {
-        let mut scripts: BTreeMap<_, Vec<_>> = Default::default();
+    pub fn scripts(&self, code: &str) -> Option<&[Script]> {
+        self.languages
+            .get(&code.to_ascii_lowercase())
+            .map(|(_, scripts)| scripts.as_slice())
+    }
+}
+
+impl Default for Context {
+    fn default() -> Self {
+        let mut languages: BTreeMap<_, (_, Vec<_>)> = Default::default();
+        let mut scripts: BTreeMap<_, (_, Vec<_>)> = Default::default();
         for (language, script, population, grid, line) in entries() {
-            scripts.entry(script).or_default().push(Language {
-                code: language,
-                population,
-                grid,
-                line,
-            });
+            // The keys are in lowercase to ignore the case when looking up.
+            languages
+                .entry(language.to_ascii_lowercase())
+                .or_insert_with(|| (language, Default::default()))
+                .1
+                .push(Script {
+                    code: script,
+                    population,
+                    grid,
+                    line,
+                });
+            scripts
+                .entry(script.to_ascii_lowercase())
+                .or_insert_with(|| (script, Default::default()))
+                .1
+                .push(Language {
+                    code: language,
+                    population,
+                    grid,
+                    line,
+                });
         }
-        for languages in scripts.values_mut() {
+        for (_, scripts) in languages.values_mut() {
+            sort(scripts, |script| (script.population, script.code));
+        }
+        for (_, languages) in scripts.values_mut() {
             sort(languages, |language| (language.population, language.code));
         }
-        scripts
+        Self { languages, scripts }
     }
 }
 
@@ -116,8 +136,8 @@ fn entries() -> Vec<Entry> {
         .iter()
         .map(|(language, script, ..)| (*language, *script))
         .collect::<BTreeSet<_>>();
-    // When several composites of a language lead to the same script, such as `hans` and `hant`
-    // leading to `hani`, the most populous one wins, with ties broken by code.
+    // When several composites of a language lead to the same script, such as `Hans` and `Hant`
+    // leading to `Hani`, the most populous one wins, with ties broken by code.
     let mut composites = DATA
         .iter()
         .filter_map(|entry| {

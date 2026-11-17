@@ -30,8 +30,6 @@ fn main() {
                  grid,
                  line,
              }| {
-                let language = language.to_lowercase();
-                let script = script.to_lowercase();
                 format!("({language:?}, {script:?}, {population:?}, {grid:?}, {line:?})")
             },
         )
