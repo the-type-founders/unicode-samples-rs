@@ -8,7 +8,7 @@ description = "The package provides samples for Unicode languages and scripts."
 documentation = "https://docs.rs/unicode-samples"
 repository = "https://github.com/the-type-founders/unicode-samples-rs"
 categories = ["text-processing"]
-keywords = ["unicode"]
+keywords = ["language", "script", "unicode"]
 
 [build-dependencies]
 serde = { version = "1", features = ["derive"] }
