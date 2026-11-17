@@ -12,7 +12,9 @@ sys.path.insert(0, os.path.join(ROOT, "source", "Lib"))
 
 import gflanguages
 
-languages = gflanguages.LoadLanguages(os.path.join(ROOT, "source", "Lib", "gflanguages", "data"))
+languages = gflanguages.LoadLanguages(
+    os.path.join(ROOT, "source", "Lib", "gflanguages", "data")
+)
 data = []
 for _, language in sorted(languages.items()):
     sample = language.sample_text
@@ -22,7 +24,9 @@ for _, language in sorted(languages.items()):
         {
             "language": language.language,
             "script": language.script,
-            "population": language.population if language.HasField("population") else None,
+            "population": (
+                language.population if language.HasField("population") else None
+            ),
             "grid": sample.masthead_partial or None,
             "line": sample.tester or None,
         }
