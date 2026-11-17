@@ -32,7 +32,7 @@ pub struct Context {
 /// A language.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct Language {
-    /// The BCP 47 code.
+    /// The BCP 47 tag.
     pub code: &'static str,
     /// The number of speakers, if known.
     pub population: Option<usize>,
